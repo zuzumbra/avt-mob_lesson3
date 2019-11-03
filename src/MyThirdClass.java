@@ -162,6 +162,38 @@ public class MyThirdClass {
 
     }
 
+    @Test
+    public void assertElementPresent(){
+
+        String search_line = "Rendering";
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
+                "Cannot find 'Search Wikipedia'",
+                5
+        );
+
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text, 'Search…')]"),
+                search_line,
+                "Cannot find input",
+                5
+        );
+
+        waitForElementAndClick(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_title'][@text='Rendering (computer graphics)']"),
+                "Cannot find element",
+                10
+        );
+
+         assertElementPresent(
+                 By.xpath("//*[@text='Rendering (computer graphics)']"),
+                "We found any results by request " +  search_line
+        );
+
+    }
+
+
+
     private void waitForArticleAndOpen (String search_line, String search_result_locator){
         waitForElementAndClick(
                 By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
@@ -261,7 +293,13 @@ public class MyThirdClass {
                 .perform();
     }
 
-
+    private void assertElementPresent (By by, String error_message){
+        List elements = driver.findElements(by);
+        if (elements.size() < 1){
+            String default_message = "An element '" + by.toString() + "' supposed to be present" + "\n";
+            throw new AssertionError(default_message + " " + error_message);
+        }
+    }
 }
 
 
