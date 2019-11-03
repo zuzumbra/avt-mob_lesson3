@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -30,6 +31,7 @@ public class MyThirdClass {
         capabilities.setCapability("appPackage", "org.wikipedia");
         capabilities.setCapability("appActivity", ".main.MainActivity");
         capabilities.setCapability("app", "D:\\Projects\\avt-mob_lesson2\\apks\\org.wikipedia.apk");
+        capabilities.setCapability("orientation", "PORTRAIT");
 
         driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
     }
@@ -189,6 +191,39 @@ public class MyThirdClass {
                  By.xpath("//*[@text='Rendering (computer graphics)']"),
                 "We found any results by request " +  search_line
         );
+
+    }
+
+    @Test
+    public void checkScreenOrientationWithDesiredCapability() {
+
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
+                "Cannot find 'Search Wikipedia'",
+                5
+        );
+
+        String search_line = "PHP";
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text, 'Search…')]"),
+                search_line,
+                "Cannot find input",
+                5
+        );
+
+        waitForElementAndClick(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_title'][@text='PHP']"),
+                "Cannot find search title",
+                5
+        );
+
+        waitForElementPresent(
+                By.xpath("//*[@resource-id='org.wikipedia:id/view_page_title_text'][@text='PHP']"),
+                "Cannot find search article",
+                10
+        );
+
+        driver.rotate(ScreenOrientation.LANDSCAPE);
 
     }
 
