@@ -34,6 +34,7 @@ public class MyThirdClass {
         capabilities.setCapability("orientation", "PORTRAIT");
 
         driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+
     }
 
     @After
@@ -165,7 +166,7 @@ public class MyThirdClass {
     }
 
     @Test
-    public void assertElementPresent(){
+    public void testWaitForTitleWithoutWaiting(){
 
         String search_line = "Rendering";
         waitForElementAndClick(
@@ -335,6 +336,8 @@ public class MyThirdClass {
             throw new AssertionError(default_message + " " + error_message);
         }
     }
+
+
 }
 
 
